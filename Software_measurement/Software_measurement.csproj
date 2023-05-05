@@ -54,6 +54,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task1\Task1Decision2CountActor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task1\Task1Decision2CountActor.Designer.cs">
+      <DependentUpon>Task1Decision2CountActor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Task1\Task1Decision3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Task1\Task1Decision2.resx">
       <DependentUpon>Task1Decision2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task1\Task1Decision2CountActor.resx">
+      <DependentUpon>Task1Decision2CountActor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Task2\Task2.resx">
       <DependentUpon>Task2.cs</DependentUpon>

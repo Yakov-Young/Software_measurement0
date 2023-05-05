@@ -18,7 +18,7 @@ namespace Software_measurement
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form newForm = new Task1Decision2();
+            Form newForm = new Task1Decision2CountActor();
             newForm.ShowDialog();
         }
 

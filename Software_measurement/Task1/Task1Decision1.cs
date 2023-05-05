@@ -52,39 +52,6 @@ namespace Software_measurement
             textBox2.Text = j2.ToString();
         }
 
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == -1 || e.RowIndex == -1 || dataGridView1[e.ColumnIndex, e.RowIndex].Value == null)
-            {
-                return;
-            }
-
-            var strValue = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(".", ",");
-            double value;
-            
-            bool isDouble = double.TryParse(strValue, out value);
-            string error = "";
-
-            if (isDouble)
-            {
-                dataGridView1[e.ColumnIndex, e.RowIndex].Value = value;
-            }
-            else
-            {
-                dataGridView1[e.ColumnIndex, e.RowIndex].Value = null;
-                error = "Значение не является числом";
-                
-            }
-            
-            if (e.ColumnIndex == 0 && value > 1)
-            {
-                dataGridView1[e.ColumnIndex, e.RowIndex].Value = 0;
-                error = "Коэффициент больше 1";
-            }
-
-            ShowError(error, e);
-        }
-
         private void SetTable()
         {
             SetSetting();
@@ -168,7 +135,39 @@ namespace Software_measurement
                 MessageBox.Show(error + $"({e.ColumnIndex}, {e.RowIndex})");
             }
         }
-    }
 
-    
+
+        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == -1 || e.RowIndex == -1 || dataGridView1[e.ColumnIndex, e.RowIndex].Value == null)
+            {
+                return;
+            }
+
+            var strValue = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString().Replace(".", ",");
+            double value;
+
+            bool isDouble = double.TryParse(strValue, out value);
+            string error = "";
+
+            if (isDouble)
+            {
+                dataGridView1[e.ColumnIndex, e.RowIndex].Value = value;
+            }
+            else
+            {
+                dataGridView1[e.ColumnIndex, e.RowIndex].Value = null;
+                error = "Значение не является числом";
+
+            }
+
+            if (e.ColumnIndex == 0 && value > 1)
+            {
+                dataGridView1[e.ColumnIndex, e.RowIndex].Value = 0;
+                error = "Коэффициент больше 1";
+            }
+
+            ShowError(error, e);
+        }
+    }
 }
