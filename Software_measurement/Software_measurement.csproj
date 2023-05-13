@@ -126,6 +126,9 @@
     <EmbeddedResource Include="Task1\Task1Decision2CountActor.resx">
       <DependentUpon>Task1Decision2CountActor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Task1\Task1Decision3.resx">
+      <DependentUpon>Task1Decision3.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Task2\Task2.resx">
       <DependentUpon>Task2.cs</DependentUpon>
     </EmbeddedResource>

@@ -16,7 +16,7 @@ namespace Software_measurement
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Task1());
+            Application.Run(new Task1Decision3());
         }
     }
 }
