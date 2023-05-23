@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Software_measurement
 {
+
     public partial class Task1Decision2 : Form
     {
-
-        string[] actorsValues;
+        string[] actorsName;
         public int countActor;
 
         List<double> workload = new List<double>();
@@ -23,13 +17,14 @@ namespace Software_measurement
         public Task1Decision2(string[] actorsValues)
         {
             InitializeComponent();
-            this.actorsValues = actorsValues;
+            this.actorsName = actorsValues;
             this.countActor = actorsValues.Length;
         }
 
         private void Task1Decision2_Load(object sender, EventArgs e)
         {
             SetTable();
+            dataGridView1.Columns[0].ReadOnly = true;
         }
 
         private void SetTable()
@@ -41,6 +36,11 @@ namespace Software_measurement
 
             dataGridView1.ColumnCount = CountColumns;
             dataGridView1.RowCount = CountRows * countActor;
+
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+
 
             dataGridView1.RowHeadersWidth = 180;
 
@@ -85,7 +85,6 @@ namespace Software_measurement
                 index += i + 1;
             }
 
-
             dataGridView1.TopLeftHeaderCell.Value = "Содержание работы";
             for (int i = 0; i < CountColumns; i++)
             {
@@ -96,9 +95,16 @@ namespace Software_measurement
             for (int i = 0; i < CountRows * countActor; i++)
             {
                 dataGridView1.Rows[i].HeaderCell.Value = headNameRows[i];
-                dataGridView1[0, i].Value = actorsValues[i % countActor];
+                dataGridView1[0, i].Value = actorsName[i % countActor];
                 dataGridView1[1, i].Value = 1;
             }
+
+            for (int i = 0; i < countActor; i++)
+            {
+                dataGridView1.Rows.Add();
+                dataGridView1[0, dataGridView1.RowCount - 1].Value = actorsName[i];
+            }
+            dataGridView1.Rows[dataGridView1.RowCount - countActor].HeaderCell.Value = "Итого по проекту";
 
             dataGridView1.Height = 400 + dataGridView1.ColumnHeadersHeight;
         }
@@ -121,12 +127,12 @@ namespace Software_measurement
 
             if (e.ColumnIndex == 1)
             {
-                checkInt(cell);
+                СheckInt(cell);
                 return;
             }
         }
 
-        private void checkInt(DataGridViewCell cell)
+        private void СheckInt(DataGridViewCell cell)
         {
             var cellValue = cell.Value.ToString();
             bool isInt = int.TryParse(cellValue, out int value);
@@ -145,12 +151,13 @@ namespace Software_measurement
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool isDate = checkDate();
+            bool isDate = СheckDate();
 
             if (isDate)
             {
                 List<int> dateDiff = new List<int>();
                 List<int> duration = new List<int>();
+
                 startDates.Clear();
                 endDates.Clear();
                 workload.Clear();
@@ -160,16 +167,15 @@ namespace Software_measurement
 
                 DateTime endDate;
 
-                for (int i = 0; i < dataGridView1.RowCount; i++)
+                for (int i = 0; i < dataGridView1.RowCount - countActor; i++)
                 {
-                                        
                     startDates.Add(startDate);
 
                     endDate = startDate.AddDays(double.Parse(dataGridView1[1, i].Value.ToString()));
                     endDates.Add(endDate);
 
                     dateDiff.Add(Convert.ToInt32((endDate - startDate).TotalDays));
-                    
+
 
                     if (i % countActor == countActor - 1)
                     {
@@ -183,35 +189,48 @@ namespace Software_measurement
 
                         duration.Add(tmp.Max());
                     }
-
-
-
                 }
 
                 int v = 0;
-                for (int i = 0; i < dataGridView1.RowCount; ++i)
+                for (int i = 0; i < dataGridView1.RowCount - countActor; ++i)
                 {
                     workload.Add(dateDiff[i] / Convert.ToDouble(duration[v]));
 
-                    if (i % countActor  == countActor - 1 && i != dataGridView1.RowCount - 1)
+                    if (i % countActor == countActor - 1 && i != dataGridView1.RowCount - 1)
                     {
                         v += 1;
                     }
-
                 }
 
                 FillTable();
+
+                for (int i = 0; i < countActor; ++i)
+                {
+                    double itemOfstaffWorkload = 0;
+
+                    for (int j = 0; j < dataGridView1.RowCount - countActor; j += countActor)
+                    {
+                        itemOfstaffWorkload += Convert.ToDouble(dataGridView1[1, i + j].Value);
+                    }
+
+                    dataGridView1[4, dataGridView1.RowCount - countActor + i].Value = Math.Round(itemOfstaffWorkload / duration.Sum(), 3);
+                    dataGridView1[1, dataGridView1.RowCount - countActor + i].Value = itemOfstaffWorkload;
+                }
+
+                textBox2.Text = duration.Sum().ToString();
+
+
+                AddTotalRow();
             }
             else
             {
                 MessageBox.Show("Начальная дата не распознана");
             }
-        
         }
 
         private void FillTable()
         {
-            for (int i = 0; i < dataGridView1.RowCount; i++)
+            for (int i = 0; i < dataGridView1.RowCount - countActor; i++)
             {
                 dataGridView1[2, i].Value = startDates[i];
                 dataGridView1[3, i].Value = endDates[i];
@@ -219,12 +238,7 @@ namespace Software_measurement
             }
         }
 
-        private void getWorkload()
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool checkDate()
+        private bool СheckDate()
         {
             DateTime date;
             bool isDate = DateTime.TryParse(textBox1.Text, out date);
@@ -235,6 +249,11 @@ namespace Software_measurement
             }
 
             return true;
+        }
+
+        private void AddTotalRow()
+        {
+
         }
     }
 }

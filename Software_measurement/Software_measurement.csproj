@@ -52,6 +52,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Task1\EnergyCost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task1\EnergyCost.Designer.cs">
+      <DependentUpon>EnergyCost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Task1\Task1Decision2CountActor.cs">
@@ -114,6 +120,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Task1\EnergyCost.resx">
+      <DependentUpon>EnergyCost.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Task1\Task1.resx">
       <DependentUpon>Task1.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,6 +134,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Task1\Task1Decision2CountActor.resx">
       <DependentUpon>Task1Decision2CountActor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task1\Task1Decision3.resx">
+      <DependentUpon>Task1Decision3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task1\Task1Decision4.resx">
+      <DependentUpon>Task1Decision4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Task2\Task2.resx">
       <DependentUpon>Task2.cs</DependentUpon>

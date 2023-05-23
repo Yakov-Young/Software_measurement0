@@ -5,6 +5,11 @@ namespace Software_measurement
 {
     public partial class Task1 : Form
     {
+        public static double Wd = 0;
+        public static double Wc = 0;
+        public static DataGridView DataGridOZP;
+        public static DataGridView DataGridMaterials;
+        public static DataGridView DataGridMachineTime;
         public Task1()
         {
             InitializeComponent();
@@ -30,8 +35,16 @@ namespace Software_measurement
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Form newForm = new Task1Decision4();
-            newForm.ShowDialog();
+            try
+            {
+                Form newForm = new Task1Decision4();
+                newForm.ShowDialog();
+
+            }
+            catch (ObjectDisposedException)
+            {
+
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)

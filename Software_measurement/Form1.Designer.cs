@@ -44,6 +44,7 @@
             // 
             // buttonTask2
             // 
+            this.buttonTask2.Enabled = false;
             this.buttonTask2.Location = new System.Drawing.Point(88, 162);
             this.buttonTask2.Name = "buttonTask2";
             this.buttonTask2.Size = new System.Drawing.Size(150, 50);

@@ -94,29 +94,11 @@ namespace Software_measurement
 
         private void RemoveTextBox()
         {
-            for (int i = 0; i < actors.Count; i++)
+            for (int i = actors.Count - 1; i >= 0; i--)
             {
                 this.Controls.Remove(actors[i]);
                 actors.RemoveAt(i);
             }
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-            {
-            if (textBox1.Text == "")
-            {
-                textBox1.Text = "1";
-                return;
-            }
-
-            var strValue = textBox1.Text;
-            bool isInt = int.TryParse(strValue, out _);
-
-            if (!isInt)
-            {
-                textBox1.Text = "1";
-            }
-        
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -148,6 +130,23 @@ namespace Software_measurement
                 return false;
             }
             return true;
+        }
+
+        private void textBox1_Validated(object sender, EventArgs e)
+        {
+            if (textBox1.Text == "")
+            {
+                textBox1.Text = "1";
+                return;
+            }
+
+            var strValue = textBox1.Text;
+            bool isInt = int.TryParse(strValue, out _);
+
+            if (!isInt)
+            {
+                textBox1.Text = "1";
+            }
         }
     }
 }
