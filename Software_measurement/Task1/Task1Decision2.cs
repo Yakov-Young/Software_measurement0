@@ -37,6 +37,11 @@ namespace Software_measurement
             dataGridView1.ColumnCount = CountColumns;
             dataGridView1.RowCount = CountRows * countActor;
 
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+
+
             dataGridView1.RowHeadersWidth = 180;
 
             string[] headNameColunms = new string[CountColumns] {
@@ -93,6 +98,13 @@ namespace Software_measurement
                 dataGridView1[0, i].Value = actorsName[i % countActor];
                 dataGridView1[1, i].Value = 1;
             }
+
+            for (int i = 0; i < countActor; i++)
+            {
+                dataGridView1.Rows.Add();
+                dataGridView1[0, dataGridView1.RowCount - 1].Value = actorsName[i];
+            }
+            dataGridView1.Rows[dataGridView1.RowCount - countActor].HeaderCell.Value = "Итого по проекту";
 
             dataGridView1.Height = 400 + dataGridView1.ColumnHeadersHeight;
         }
@@ -155,7 +167,7 @@ namespace Software_measurement
 
                 DateTime endDate;
 
-                for (int i = 0; i < dataGridView1.RowCount; i++)
+                for (int i = 0; i < dataGridView1.RowCount - countActor; i++)
                 {
                     startDates.Add(startDate);
 
@@ -180,7 +192,7 @@ namespace Software_measurement
                 }
 
                 int v = 0;
-                for (int i = 0; i < dataGridView1.RowCount; ++i)
+                for (int i = 0; i < dataGridView1.RowCount - countActor; ++i)
                 {
                     workload.Add(dateDiff[i] / Convert.ToDouble(duration[v]));
 
@@ -192,10 +204,23 @@ namespace Software_measurement
 
                 FillTable();
 
-                //нужно добавить последний столбец
-                DataGridViewRow resultRow = new DataGridViewRow();
-                //resultRow.SetValues("", );
-                dataGridView1.Rows.Add();
+                for (int i = 0; i < countActor; ++i)
+                {
+                    double itemOfstaffWorkload = 0;
+
+                    for (int j = 0; j < dataGridView1.RowCount - countActor; j += countActor)
+                    {
+                        itemOfstaffWorkload += Convert.ToDouble(dataGridView1[1, i + j].Value);
+                    }
+
+                    dataGridView1[4, dataGridView1.RowCount - countActor + i].Value = Math.Round(itemOfstaffWorkload / duration.Sum(), 3);
+                    dataGridView1[1, dataGridView1.RowCount - countActor + i].Value = itemOfstaffWorkload;
+                }
+
+                textBox2.Text = duration.Sum().ToString();
+
+
+                AddTotalRow();
             }
             else
             {
@@ -205,7 +230,7 @@ namespace Software_measurement
 
         private void FillTable()
         {
-            for (int i = 0; i < dataGridView1.RowCount; i++)
+            for (int i = 0; i < dataGridView1.RowCount - countActor; i++)
             {
                 dataGridView1[2, i].Value = startDates[i];
                 dataGridView1[3, i].Value = endDates[i];
@@ -224,6 +249,11 @@ namespace Software_measurement
             }
 
             return true;
+        }
+
+        private void AddTotalRow()
+        {
+
         }
     }
 }
